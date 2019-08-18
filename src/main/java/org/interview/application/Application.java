@@ -6,14 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.interview.application.messages.Message;
 import org.interview.application.messages.MessageFormatter;
-import org.interview.application.messages.MessageProcessor;
-import org.interview.application.twitter.TwitterMessageConverter;
 import org.interview.application.twitter.TwitterMessageReceiver;
-import org.interview.application.twitter.TwitterStatusListener;
+import org.interview.application.twitter.TwitterStatusListenerFactory;
+import org.interview.application.twitter.TwitterStreamFactoryWrapper;
 import org.interview.application.twitter.auth.TwitterAuthenticator;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStreamFactory;
 
 import java.util.List;
 import java.util.Timer;
@@ -23,17 +21,15 @@ public class Application {
 
         final Twitter twitter = TwitterFactory.getSingleton();
 
-        final TwitterAuthenticator authenticator = new TwitterAuthenticator();
+        final TwitterAuthenticator authenticator = new TwitterAuthenticator(System.out, System.in);
         authenticator.authenticate(twitter);
 
         // Create the receiver
-        final MessageProcessor processor = new MessageProcessor();
-        final TwitterMessageConverter converter = new TwitterMessageConverter();
-        final TwitterStatusListener listener = new TwitterStatusListener(processor, converter, 100);
-        final TwitterMessageReceiver receiver = new TwitterMessageReceiver(listener,
-                new TwitterStreamFactory(), new Timer(), 30);
+        final TwitterStatusListenerFactory listenerFactory = new TwitterStatusListenerFactory();
+        final TwitterMessageReceiver receiver = new TwitterMessageReceiver(listenerFactory,
+                new TwitterStreamFactoryWrapper(twitter), new Timer());
 
-        final List<Message> messages = receiver.receiveMessages("bieber");
+        final List<Message> messages = receiver.receiveMessages("bieber", 100, 30);
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());

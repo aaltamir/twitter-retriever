@@ -66,3 +66,60 @@ If you want to, you can also disregard the provided classes or Maven configurati
 You are assigned to you own private repository. Please use your own branch and do not commit on master.
 When the assignment is finished, please create a pull request on the master of this repository, and your contact person will be notified automatically. 
 
+## How to compile ##
+
+### Compile the JAVA program ###
+
++ Run mvnw.cmd clean package in Windows or ./mvnw clean package in Unix
+
+This will generate the file bieber-tweets-1.0.0-SNAPSHOT-jar-with-dependencies.jar that can be used to execute the application
+
+### Compile docker ###
+
+A Docker file is provided with the code. This can be used to generate a Docker image in the following way:
+
+docker build -t bieber-tweets .
+
+## How to Run ##
+
+### Using the JAR file ###
+
+The following command line can be used:
+
+java -D"twitter4j.oauth.consumerKey"=RLSrphihyR4G2UxvA0XBkLAdl -D"twitter4j.oauth.consumerSecret"=FTz2KcP1y3pcLw0XXMX5Jy3GTobqUweITIFy4QefullmpPnKm4 -jar .\target\bieber-tweets-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+
+The program will provide an url that needs to be accessed. Twitter will ask your Twitter credentials and a PIN will be provided.
+This PIN must be used in the application.
+
+Once the authentication finalize the program will display two token values that can be used in future executions.
+ This two tokens can also be specified using -D parameters with the following keys:
+ 
+ -Dtwitter4j.oauth.accessToken=
+ -Dtwitter4j.oauth.accessTokenSecret=
+ 
+ Using this properties avoids entering the PIN for each execution.
+ 
+### Using Docker ### 
+
+Assuming an image has been generated. The program can be executed in the following way:
+
+docker run -i -t bieber-tweets
+
+Note that the consumer Key and Consumer Secret don't need to be specified. They are part of the docker image.
+
+If we want to specify the access tokens, they just need to be added as parameter in the command line. Example:
+
+docker run -i -t bieber-tweets <accessToken> <accessTokenSecret>
+
+### The Output ###
+
+The output is generated in the output console as a JSON array of users.
+
+Each user contains a property with its messages ordered by date time.
+
+The users in the array are also ordered by date time.
+
+Stats about the quantity of messages received per second is logged as well, for example:
+
+INFO org.interview.application.twitter.TwitterStatusListener - Received messages per second: 0.2413793
+

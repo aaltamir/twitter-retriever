@@ -1,13 +1,12 @@
 package org.interview.application.twitter.auth;
 
+import lombok.RequiredArgsConstructor;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * A special procedure is needed to authenticate with Twitter. This class is responsible for that.
@@ -20,7 +19,12 @@ import java.io.InputStreamReader;
  * When the last two are not specified some extra manual steps will be required to execute in order
  * to generate the access token.
  */
+@RequiredArgsConstructor
 public class TwitterAuthenticator {
+
+    private final PrintStream outStream;
+
+    private final InputStream inputStream;
 
     private static final String TWITTER_4_J_OAUTH_ACCESS_TOKEN = "twitter4j.oauth.accessToken";
     private static final String TWITTER_4_J_OAUTH_ACCESS_TOKEN_SECRET = "twitter4j.oauth.accessTokenSecret";
@@ -45,11 +49,11 @@ public class TwitterAuthenticator {
             throw new TwitterAuthenticationException("Unable to get the request token.", e);
         }
         AccessToken accessToken = null;
-        final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         while (null == accessToken) {
-            System.out.println("Open the following URL and grant access to your account:");
-            System.out.println(requestToken.getAuthorizationURL());
-            System.out.print("Enter the PIN(if available) or just hit enter.[PIN]:");
+            outStream.println("Open the following URL and grant access to your account:");
+            outStream.println(requestToken.getAuthorizationURL());
+            outStream.print("Enter the PIN(if available) or just hit enter.[PIN]:");
             final String pin;
             try {
                 pin = br.readLine();
@@ -68,7 +72,7 @@ public class TwitterAuthenticator {
             }
         }
 
-        System.out.print("Access token retrieved. " + TWITTER_4_J_OAUTH_ACCESS_TOKEN + " = " + accessToken.getToken() +
+        outStream.println("Access token retrieved. " + TWITTER_4_J_OAUTH_ACCESS_TOKEN + " = " + accessToken.getToken() +
                 ", " + TWITTER_4_J_OAUTH_ACCESS_TOKEN_SECRET + " = " + accessToken.getTokenSecret());
     }
 }
