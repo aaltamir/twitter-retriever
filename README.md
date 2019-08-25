@@ -1,17 +1,6 @@
-> *************************************************************
-> *                                                           *
-> *       ________  __    __  ________    ____       ______   *
-> *      /_/_/_/_/ /_/   /_/ /_/_/_/_/  _/_/_/_   __/_/_/_/   *
-> *     /_/_____  /_/___/_/    /_/    /_/___/_/  /_/          *
-> *    /_/_/_/_/   /_/_/_/    /_/    /_/_/_/_/  /_/           *
-> *   ______/_/       /_/    /_/    /_/   /_/  /_/____        *
-> *  /_/_/_/_/       /_/    /_/    /_/   /_/    /_/_/_/ . io  *
-> *                                                           *
-> *************************************************************
+# Java Exercise #
 
-# Sytac Java Exercise #
-
-This development test is used as part of Sytac selection for Java developers. You are requested to develop a simple application that covers all the requirements listed below. To have an indication of the criteria that will be used to judge your submission, all the following are considered as metrics of good development:
+This development test is used as part of selection for Java developers. You are requested to develop a simple application that covers all the requirements listed below. To have an indication of the criteria that will be used to judge your submission, all the following are considered as metrics of good development:
 
 + Correctness of the implementation
 + Decent test coverage
@@ -20,16 +9,14 @@ This development test is used as part of Sytac selection for Java developers. Yo
 + Careful choice of tools and data formats
 + Use of production-ready approaches
 
-While no specific time limit is mandated to complete the exercise, you will be asked to provide your code within a given deadline from Sytac HR. You are free to choose any library as long as it can run on the JVM.
-
 ## Task ##
 
 We would like you to write code that will cover the functionality explained below and provide us with the source, instructions to build and run the appliocation  as well as a sample output of an execution:
 
 + Connect to the [Twitter Streaming API](https://dev.twitter.com/streaming/overview)
     * Use the following values:
-        + Consumer Key: `RLSrphihyR4G2UxvA0XBkLAdl`
-        + Consumer Secret: `FTz2KcP1y3pcLw0XXMX5Jy3GTobqUweITIFy4QefullmpPnKm4`
+        + Consumer Key: `Consumer Key`
+        + Consumer Secret: `Consumer Secret`
     * The app name will be `java-exercise`
     * You will need to login with Twitter
 + Filter messages that track on "bieber"
@@ -86,7 +73,7 @@ docker build -t bieber-tweets .
 
 The following command line can be used:
 
-java -D"twitter4j.oauth.consumerKey"=RLSrphihyR4G2UxvA0XBkLAdl -D"twitter4j.oauth.consumerSecret"=FTz2KcP1y3pcLw0XXMX5Jy3GTobqUweITIFy4QefullmpPnKm4 -jar .\target\bieber-tweets-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+java -D"twitter4j.oauth.consumerKey"=ConsumerKey -D"twitter4j.oauth.consumerSecret"=ConsumerSecret -jar .\target\bieber-tweets-1.0.0-SNAPSHOT-jar-with-dependencies.jar
 
 The program will provide an url that needs to be accessed. Twitter will ask your Twitter credentials and a PIN will be provided.
 This PIN must be used in the application.
